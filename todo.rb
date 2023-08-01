@@ -9,6 +9,10 @@ configure do
   set :erb, :escape_html => true
 end
 
+after do
+  @storage.disconnect
+end
+
 configure(:development) do
   require "sinatra/reloader"
   also_reload "database_persistence.rb"
@@ -45,8 +49,6 @@ helpers do
     complete_todos.each(&block)
   end
 end
-
-
 
 def load_list(id)
   list = @storage.find_list(id)
